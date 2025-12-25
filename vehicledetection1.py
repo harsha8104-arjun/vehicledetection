@@ -8,8 +8,9 @@ import re
 import shutil
 
 st.title("License Plate Partial Match Search")
-
-model = YOLO(r"C:\harsha\projects\vehicledetection\best.pt")
+if not os.path.exists("best.pt"):
+    urllib.request.urlretrieve("https://huggingface.co/your-model-url/best.pt", "best.pt")
+model = YOLO("best.pt")
 reader = easyocr.Reader(['en'])
 option = st.radio("Choose Input Type", ["Video", "Image Folder"])
 target_plate = st.text_input("Enter license plate number:").upper().replace(" ", "")
@@ -101,3 +102,4 @@ elif option == "Image Folder":
             st.write(f"Matched images saved in: {matched_folder}")
         else:
             st.warning("No matching plates found")
+
